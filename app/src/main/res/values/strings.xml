@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">UpAndDownTheRiver</string>
+    <string name="GameTitle">Up and Down the River</string>
+    <string name="new_game">New Game</string>
+    <string name="load_game">Load Game</string>
+    <string name="players">Players</string>
+    <string name="settings">Settings</string>
+</resources>
