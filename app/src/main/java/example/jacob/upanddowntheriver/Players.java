@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 public class Players extends AppCompatActivity {
     public void getPlayersFromFile(PlayerCollection players) {
         try {
+            // All this to read the players json file.
             FileInputStream playersFile = openFileInput(Constants.PLAYERS_FILE);
             InputStreamReader isr = new InputStreamReader(playersFile);
             BufferedReader bufferedReader = new BufferedReader(isr);
@@ -29,10 +30,14 @@ public class Players extends AppCompatActivity {
                 playerJson.append(line);
             }
 
+            // Create a json object from the text read out of the players file.
             JSONObject playerData = new JSONObject(playerJson.toString());
 
+            // Create a JSON array object from the "players" object in the players JSON.
             JSONArray playerArray = (JSONArray) playerData.get("players");
 
+            // Iterate over each entry in the playerArray, create a player
+            // and add it to the player collection.
             for (int i = 0; i < playerArray.length(); i++) {
                 Player p = new Player(playerArray.getJSONObject(i));
                 players.addPlayer(p);
