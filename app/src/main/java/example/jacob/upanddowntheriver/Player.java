@@ -1,12 +1,19 @@
 package example.jacob.upanddowntheriver;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Player {
     private String name;
     private String nickName;
     private int score;
 
+    /*
+    Player constructors
+     */
     Player(String name) {
         this.name = name;
         this.nickName = name;
@@ -31,6 +38,19 @@ public class Player {
         this.score = score;
     }
 
+    Player(JSONObject player) {
+        try {
+            this.name = player.getString("name");
+            this.nickName = player.getString("name");
+            this.score = player.getInt("score");
+        } catch (JSONException e) {
+            Log.i("jsonError", "Could not create player from json");
+        }
+    }
+
+    /*
+    Getter/setter methods because fucking java
+     */
     public String getName() {
         return name;
     }
@@ -43,8 +63,28 @@ public class Player {
         return score;
     }
 
+    /*
+    toString so the ListView works correctly.
+     */
     @NonNull
     public String toString() {
         return name;
+    }
+
+    /*
+    Convert a player object into json.
+     */
+    public JSONObject writeJson() {
+        JSONObject jsonData = new JSONObject();
+
+        try {
+            jsonData.put("name", name);
+            jsonData.put("nickName", nickName);
+            jsonData.put("score", score);
+        } catch (JSONException e) {
+            Log.i("jsonError", "Could not convert to json.");
+        }
+
+        return jsonData;
     }
 }
