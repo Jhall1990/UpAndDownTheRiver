@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">UpAndDownTheRiver</string>
-    <string name="GameTitle">Up and Down the River</string>
+    <string name="game_title">Up and Down the River</string>
     <string name="new_game">New Game</string>
     <string name="load_game">Load Game</string>
     <string name="players">Players</string>
     <string name="settings">Settings</string>
     <string name="add_player">Add Player</string>
+    <string name="save_player_text">Save</string>
+    <string name="player_name_text_field">Name</string>
+    <string name="nick_name_text_field">Nick Name</string>
+    <string name="player_menu_edit">Edit</string>
+    <string name="player_menu_delete">Delete</string>
 </resources>
