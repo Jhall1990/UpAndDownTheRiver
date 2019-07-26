@@ -127,10 +127,6 @@ public class Players extends AppCompatActivity {
     public void populatePlayerList() {
         // Todo: Convert this into a recycler view at some point.
 
-        // Create a new players collection because android does weird caching
-        // or something when moving between activities.
-        players = new PlayerCollection();
-
         // Get the player list ListView.
         ListView playerList = findViewById(R.id.playerListView);
 
@@ -152,6 +148,7 @@ public class Players extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players);
+        players = new PlayerCollection();
         populatePlayerList();
     }
 }
