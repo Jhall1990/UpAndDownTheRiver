@@ -25,7 +25,7 @@ import java.io.InputStreamReader;
 
 public class Players extends AppCompatActivity {
 
-    private PlayerCollection players = new PlayerCollection();
+    private PlayerCollection players;
     private ArrayAdapter<Player> playerAdapter;
 
     public void getPlayersFromFile(PlayerCollection players) {
@@ -66,21 +66,29 @@ public class Players extends AppCompatActivity {
         Log.i("btn", "Add player button pressed");
 
         Intent intent = new Intent(this, AddEditPlayer.class);
-        startActivityForResult(intent, 1);
+        intent.putExtra("requestCode", Constants.ADD_PLAYER);
+        startActivityForResult(intent, Constants.ADD_PLAYER);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                String name = data.getStringExtra("name");
-                String nickName = data.getStringExtra("nickName");
+        if (resultCode == Activity.RESULT_OK) {
+            String name = data.getStringExtra("name");
+            String nickName = data.getStringExtra("nickName");
 
+            if (requestCode == Constants.ADD_PLAYER) {
                 Player p = new Player(name, nickName);
                 players.addPlayer(p);
-                playerAdapter.notifyDataSetChanged();
-                players.savePlayers(this);
+            } else if (requestCode == Constants.EDIT_PLAYER) {
+                // We have to create a new player here because for some reason
+                // on edit the player selected is removed from the array list.
+                // Not sure why android is doing that.
+                int index = data.getIntExtra("index", -1);
+                Player p = new Player(name, nickName);
+                players.insertPlayer(p, index);
             }
+            playerAdapter.notifyDataSetChanged();
+            players.savePlayers(this);
         }
     }
 
@@ -95,13 +103,22 @@ public class Players extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
+
         switch(item.getItemId()) {
             case R.id.edit:
-                // edit stuff here
-                return true;
+                Intent intent = new Intent(this, AddEditPlayer.class);
+                Player player = players.getPlayer(index);
+                intent.putExtra("name", player.getName());
+                intent.putExtra("nickName", player.getNickName());
+                intent.putExtra("requestCode", Constants.EDIT_PLAYER);
+                intent.putExtra("index", index);
+                startActivityForResult(intent, Constants.EDIT_PLAYER);
             case R.id.delete:
-                // remove stuff here
-                return true;
+                players.removePlayer(index);
+                playerAdapter.notifyDataSetChanged();
+                players.savePlayers(this);
             default:
                 return super.onContextItemSelected(item);
         }
@@ -109,6 +126,10 @@ public class Players extends AppCompatActivity {
 
     public void populatePlayerList() {
         // Todo: Convert this into a recycler view at some point.
+
+        // Create a new players collection because android does weird caching
+        // or something when moving between activities.
+        players = new PlayerCollection();
 
         // Get the player list ListView.
         ListView playerList = findViewById(R.id.playerListView);
@@ -131,7 +152,6 @@ public class Players extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players);
-
         populatePlayerList();
     }
 }

@@ -51,12 +51,20 @@ public class Player {
     /*
     Getter/setter methods because fucking java
      */
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public String getNickName() {
+    void setName(String name) {
+        this.name = name;
+    }
+
+    String getNickName() {
         return nickName;
+    }
+
+    void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public int getScore() {

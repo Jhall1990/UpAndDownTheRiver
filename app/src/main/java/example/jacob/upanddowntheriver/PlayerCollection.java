@@ -15,32 +15,37 @@ import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class PlayerCollection {
+class PlayerCollection {
     private ArrayList<Player> players;
 
     PlayerCollection() {
         players = new ArrayList<>();
     }
 
-    /*
-    Add a player to the collection
-     */
-    public void addPlayer(Player p) {
+    void addPlayer(Player p) {
         players.add(p);
     }
 
-    public void removePlayer(Player p) {
-        players.remove(p);
+    void insertPlayer(Player p, int index) {
+        players.add(index, p);
     }
 
-    public ArrayList<Player> getPlayers() {
+    void removePlayer(int index) {
+        players.remove(index);
+    }
+
+    ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    Player getPlayer(int index) {
+        return players.get(index);
     }
 
     /*
     Convert player collection to json.
      */
-    public void savePlayers(Context c) {
+    void savePlayers(Context c) {
         JSONObject playersJson = createJson();
         writeJsonToFile(c, playersJson);
     }
