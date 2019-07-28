@@ -16,7 +16,7 @@ public class Player {
      */
     Player(String name) {
         this.name = name;
-        this.nickName = name;
+        this.nickName = "";
         this.score = 0;
     }
 
@@ -28,7 +28,7 @@ public class Player {
 
     Player(String name, int score) {
         this.name = name;
-        this.nickName = name;
+        this.nickName = "";
         this.score = score;
     }
 

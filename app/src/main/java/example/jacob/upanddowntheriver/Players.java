@@ -80,12 +80,14 @@ public class Players extends AppCompatActivity {
                 Player p = new Player(name, nickName);
                 players.addPlayer(p);
             } else if (requestCode == Constants.EDIT_PLAYER) {
-                // We have to create a new player here because for some reason
-                // on edit the player selected is removed from the array list.
-                // Not sure why android is doing that.
+                 // We have to create a new player here because for some reason
+                 // on edit the player selected is removed from the array list.
+                 // Not sure why android is doing that.
                 int index = data.getIntExtra("index", -1);
-                Player p = new Player(name, nickName);
-                players.insertPlayer(p, index);
+
+                Player p = players.getPlayer(index);
+                p.setName(name);
+                p.setNickName(name);
             }
             playerAdapter.notifyDataSetChanged();
             players.savePlayers(this);
@@ -105,23 +107,24 @@ public class Players extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int index = info.position;
+        int itemId = item.getItemId();
 
-        switch(item.getItemId()) {
-            case R.id.edit:
-                Intent intent = new Intent(this, AddEditPlayer.class);
-                Player player = players.getPlayer(index);
-                intent.putExtra("name", player.getName());
-                intent.putExtra("nickName", player.getNickName());
-                intent.putExtra("requestCode", Constants.EDIT_PLAYER);
-                intent.putExtra("index", index);
-                startActivityForResult(intent, Constants.EDIT_PLAYER);
-            case R.id.delete:
-                players.removePlayer(index);
-                playerAdapter.notifyDataSetChanged();
-                players.savePlayers(this);
-            default:
-                return super.onContextItemSelected(item);
+        if (itemId == R.id.edit) {
+            Intent intent = new Intent(this, AddEditPlayer.class);
+            Player player = players.getPlayer(index);
+            intent.putExtra("name", player.getName());
+            intent.putExtra("nickName", player.getNickName());
+            intent.putExtra("requestCode", Constants.EDIT_PLAYER);
+            intent.putExtra("index", index);
+            startActivityForResult(intent, Constants.EDIT_PLAYER);
+        } else if (itemId == R.id.delete) {
+            players.removePlayer(index);
+            playerAdapter.notifyDataSetChanged();
+            players.savePlayers(this);
+        } else {
+            return super.onContextItemSelected(item);
         }
+        return true;
     }
 
     public void populatePlayerList() {
