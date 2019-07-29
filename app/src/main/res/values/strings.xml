@@ -12,4 +12,9 @@
     <string name="player_menu_edit">Edit</string>
     <string name="player_menu_delete">Delete</string>
     <string name="finish_button_text">Finish</string>
+    <string name="select_dealer_text">Select First Dealer:</string>
+    <string name="select_hand_size_text">Select Starting Hand Size:</string>
+    <string name="select_trump_mode_text">Select Trump Mode:</string>
+    <string name="number_repeats_text">Number of Times to Repeat:</string>
+    <string name="up_down_text">Up or Down First:</string>
 </resources>

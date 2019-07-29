@@ -6,7 +6,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Player {
+public class Player implements java.io.Serializable {
     private String name;
     private String nickName;
     private int score;

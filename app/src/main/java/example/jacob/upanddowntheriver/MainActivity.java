@@ -9,7 +9,7 @@ public class MainActivity extends AppCompatActivity {
     public void loadNewGameActivity(android.view.View view) {
         Log.i("btn", "New Game button pressed");
 
-        Intent intent = new Intent(this. SelectPlayers.class);
+        Intent intent = new Intent(this, SelectPlayers.class);
         startActivity(intent);
     }
 
