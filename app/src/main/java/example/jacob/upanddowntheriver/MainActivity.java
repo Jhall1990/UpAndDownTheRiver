@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadSettingsActivity(android.view.View view) {
-        Log.i("btn", "Settings button pressed");
+        Log.i("btn", "GameSettings button pressed");
     }
 
     @Override
