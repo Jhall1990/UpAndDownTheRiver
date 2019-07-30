@@ -22,13 +22,13 @@ public class FinalizeSettings extends AppCompatActivity {
     }
 
     void populateHandSizeSpinner(int maxHandSize) {
-        Integer[] handSizes = new Integer[maxHandSize];
+        String[] handSizes = new String[maxHandSize];
 
-        for (int i = maxHandSize - 1; i > 0; i--) {
-            handSizes[i] = i;
+        for (int i = 1; i <= maxHandSize; i++) {
+            handSizes[i - 1] = Integer.toString(i);
         }
 
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, handSizes);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, handSizes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         handSizeSpinner.setAdapter(adapter);
     }
