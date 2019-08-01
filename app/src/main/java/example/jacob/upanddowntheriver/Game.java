@@ -1,11 +1,13 @@
 package example.jacob.upanddowntheriver;
 
 
-public class Game {
+public class Game implements java.io.Serializable {
     private PlayerCollection players;
+    private Player dealer;
     private int numPlayers;
     private int trumpMode;
     private int handSize;
+    private int repeats;
     private boolean goingUp;
 
     Game(PlayerCollection players) {
@@ -17,6 +19,9 @@ public class Game {
         return (Constants.DECK_SIZE * GameSettings.numDecks) / numPlayers;
     }
 
+    /*
+    Setters...
+     */
     public void setHandSize(int handSize) {
         this.handSize = handSize;
     }
@@ -27,5 +32,13 @@ public class Game {
 
     public void setGoingUp(boolean goingUp) {
         this.goingUp = goingUp;
+    }
+
+    void setDealer(Player dealer) {
+        this.dealer = dealer;
+    }
+
+    void setRepeats(int repeats) {
+        this.repeats = repeats;
     }
 }

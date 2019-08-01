@@ -17,4 +17,6 @@
     <string name="select_trump_mode_text">Select Trump Mode:</string>
     <string name="number_repeats_text">Number of Times to Repeat:</string>
     <string name="up_down_text">Up or Down First:</string>
+    <string name="up_text">Up</string>
+    <string name="down_text">Down</string>
 </resources>
