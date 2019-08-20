@@ -19,4 +19,6 @@
     <string name="up_down_text">Up or Down First:</string>
     <string name="up_text">Up</string>
     <string name="down_text">Down</string>
+    <string name="max_hand_size">Max Hand Size</string>
+    <string name="enter_bids_text">Enter Bids</string>
 </resources>

@@ -68,7 +68,7 @@
         android:text="@string/select_trump_mode_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/handSizeSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/maxHandSizeSpinner"
         tools:text="Select Trump Mode" />
 
     <Spinner
@@ -85,31 +85,6 @@
         app:layout_constraintTop_toBottomOf="@+id/trumpModeText" />
 
     <TextView
-        android:id="@+id/repeatTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/number_repeats_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trumpModeSpinner"
-        tools:text="Number of Times to Repeat" />
-
-    <EditText
-        android:id="@+id/numberOfRepeatsTextBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/repeatTextView" />
-
-    <TextView
         android:id="@+id/upOrDownText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -119,7 +94,7 @@
         android:text="@string/up_down_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numberOfRepeatsTextBox"
+        app:layout_constraintTop_toBottomOf="@+id/trumpModeSpinner"
         tools:text="Up or Down First:" />
 
     <RadioGroup
@@ -158,5 +133,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/maxHandSizeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/max_hand_size"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/handSizeSpinner" />
+
+    <Spinner
+        android:id="@+id/maxHandSizeSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maxHandSizeText" />
 
 </android.support.constraint.ConstraintLayout>

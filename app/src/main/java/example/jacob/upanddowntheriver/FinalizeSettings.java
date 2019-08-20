@@ -3,40 +3,48 @@ package example.jacob.upanddowntheriver;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FinalizeSettings extends AppCompatActivity {
+    ArrayList<Integer> maxHandSizes;
+    ArrayAdapter<Integer> maxHandSizeAdapter;
     Spinner dealerSpinner;
-    Spinner handSizeSpinner;
+    Spinner startingHandSizeSpinner;
+    Spinner maxHandSizeSpinner;
     Spinner trumpModeSpinner;
+    RadioGroup upDownRadio;
+    Button finishButton;
     Game game;
 
     public void startGame(android.view.View view) {
-        // Get the repeat text box view.
-        TextView repeatTextView = findViewById(R.id.numberOfRepeatsTextBox);
-
         // Get the data from the page and update the game object.
         Player dealer = (Player) dealerSpinner.getSelectedItem();
-        int handSize = Integer.parseInt(handSizeSpinner.getSelectedItem().toString());
+        int startingHandSize = Integer.parseInt(startingHandSizeSpinner.getSelectedItem().toString());
+        int maxHandSize = Integer.parseInt(maxHandSizeSpinner.getSelectedItem().toString());
         int trumpMode = getTrumpMode();
-        int repeats = Integer.parseInt(repeatTextView.getText().toString());
         boolean up = getUpOrDown();
 
         // Update the game object.
         game.setDealer(dealer);
-        game.setHandSize(handSize);
+        game.setStartingHandSize(startingHandSize);
+        game.setMaxHandSize(maxHandSize);
         game.setTrumpMode(trumpMode);
-        game.setRepeats(repeats);
         game.setGoingUp(up);
 
         // Serialize the game object, create a bundle, and add it to the intent.
-
+        Intent intent = new Intent(this, PlayGame.class);
+        Bundle gameBundle = new Bundle();
+        gameBundle.putSerializable("game", game);
+        intent.putExtras(gameBundle);
+        startActivityForResult(intent, 1);
     }
 
     /*
@@ -44,7 +52,6 @@ public class FinalizeSettings extends AppCompatActivity {
     otherwise False is returned.
      */
     boolean getUpOrDown() {
-        RadioGroup upDownRadio = findViewById(R.id.upOrDownRadio);
         int selectedRadio = upDownRadio.getCheckedRadioButtonId();
         return selectedRadio == R.id.upRadio;
     }
@@ -67,16 +74,40 @@ public class FinalizeSettings extends AppCompatActivity {
         dealerSpinner.setAdapter(adapter);
     }
 
-    void populateHandSizeSpinner(int maxHandSize) {
-        String[] handSizes = new String[maxHandSize];
+    void populateStartingHandSizeSpinner(int handSize) {
+        String[] handSizes = new String[handSize];
 
-        for (int i = 1; i <= maxHandSize; i++) {
+        for (int i = 1; i <= handSize; i++) {
             handSizes[i - 1] = Integer.toString(i);
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, handSizes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        handSizeSpinner.setAdapter(adapter);
+        startingHandSizeSpinner.setAdapter(adapter);
+    }
+
+    void populateMaxHandSizeSpinner() {
+        int startingHandSize = Integer.parseInt(startingHandSizeSpinner.getSelectedItem().toString());
+
+        if (maxHandSizes == null) {
+            maxHandSizes = new ArrayList<>();
+        }
+
+        // Remove all the entries from the array list.
+        maxHandSizes.clear();
+
+        // Generate new data for the max hand size array.
+        for (int i = startingHandSize; i <= game.getMaxHandSize(); i++) {
+            maxHandSizes.add(i);
+        }
+
+        if (maxHandSizeAdapter == null) {
+            maxHandSizeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, maxHandSizes);
+            maxHandSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            maxHandSizeSpinner.setAdapter(maxHandSizeAdapter);
+        } else {
+            maxHandSizeAdapter.notifyDataSetChanged();
+        }
     }
 
     void populateTrumpModeSpinner() {
@@ -97,9 +128,16 @@ public class FinalizeSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finalize_settings);
 
+        // Get the finish button and disable it.
+        finishButton = findViewById(R.id.buttonStart);
+        finishButton.setEnabled(false);
+
+        // Get all the spinners and radio group.
         dealerSpinner = findViewById(R.id.dealerSpinner);
-        handSizeSpinner = findViewById(R.id.handSizeSpinner);
+        startingHandSizeSpinner = findViewById(R.id.handSizeSpinner);
+        maxHandSizeSpinner = findViewById(R.id.maxHandSizeSpinner);
         trumpModeSpinner = findViewById(R.id.trumpModeSpinner);
+        upDownRadio = findViewById(R.id.upOrDownRadio);
 
         // Get the player data from the intent.
         Intent intent = getIntent();
@@ -111,7 +149,35 @@ public class FinalizeSettings extends AppCompatActivity {
 
         // Populate the three spinners.
         populateDealerSpinner(players);
-        populateHandSizeSpinner(game.getMaxHandSize());
+        populateStartingHandSizeSpinner(game.getMaxHandSize());
+        populateMaxHandSizeSpinner();
         populateTrumpModeSpinner();
+
+        // Create the on click listener for the select hand size spinner.
+        startingHandSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Update the max hand size spinner so it's never less than the
+                // starting hand size.
+                populateMaxHandSizeSpinner();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        // Create the on click listener for the radio group, just need this
+        // to enable the finish button after one of the options was selected.
+        upDownRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (!finishButton.isEnabled()) {
+                    finishButton.setEnabled(true);
+                }
+            }
+        });
+
     }
 }

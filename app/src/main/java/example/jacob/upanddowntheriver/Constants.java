@@ -22,4 +22,10 @@ class Constants {
         trumpModes.put(TRUMP_MODE_USER_CHOICE, "User Choice");
         return trumpModes;
     }
+
+    static final int SUIT_HEARTS = 0;
+    static final int SUIT_DIAMONDS = 1;
+    static final int SUIT_CLUBS = 2;
+    static final int SUIT_SPADES = 3;
+    static final int SUIT_NONE = 4;
 }
